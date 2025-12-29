@@ -1,0 +1,52 @@
+.category-carousel-container {
+  padding: 20px 0;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.category-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+.category-carousel {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  padding-bottom: 15px; /* Add some space for the scrollbar if it appears */
+}
+
+.category-carousel::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.category-chip {
+  flex-shrink: 0;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 10px 20px;
+  margin-right: 15px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.category-chip:hover {
+  background-color: #e0e0e0;
+  border-color: #ccc;
+}
+
+.category-chip.active {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.category-chip:last-child {
+  margin-right: 0;
+}

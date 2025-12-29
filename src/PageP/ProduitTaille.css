@@ -1,0 +1,209 @@
+.antiage-container {
+  background: #f4eaff;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.antiage-banner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.antiage-banner img {
+  width: 130px;
+  height: auto;
+  border-radius: 12px;
+}
+
+.antiage-banner h2 {
+  font-size: 24px;
+  color: #004b3f;
+  margin: 0;
+}
+
+.antiage-banner p {
+  flex: 1;
+  font-size: 16px;
+  color: #333;
+  margin: 10px 0;
+}
+
+.antiage-banner a {
+  font-weight: bold;
+  text-decoration: underline;
+  color: #004b3f;
+}
+
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.products-container {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 0;
+}
+
+.product-card {
+  flex: 0 0 auto;
+  width: 180px;
+  background: white;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 8px;
+}
+
+.brand {
+  font-size: 12px;
+  color: gray;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.price-box {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: gray;
+  font-size: 14px;
+}
+
+.discount {
+  background: #e50078;
+  color: white;
+  padding: 2px 6px;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+}
+
+.arrow {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.2s;
+}
+
+.arrow:hover {
+  background: #ddd;
+}
+
+.arrow.left {
+  position: absolute;
+  left: -20px;
+}
+
+.arrow.right {
+  position: absolute;
+  right: -20px;
+}
+.banner-text p {
+  font-size: 16px;
+  color: #09423b;
+}
+
+.banner-text {
+  max-width: 60%;
+}
+
+.banner-text h2 {
+  font-size: 24px;
+  color: #09423b;
+  margin-bottom: 10px;
+}
+.desktop-only {
+  display: flex;
+}
+
+.mobile-only {
+  display: none;
+}
+
+/* Cacher les flèches sur mobile */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
+  .banner-card {
+    width: 95%;
+    margin: 0 auto 16px auto;
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  }
+
+  .banner-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+
+  .banner-card .brand {
+    font-size: 18px;
+    font-weight: bold;
+    color: #004b3f;
+  }
+
+  .banner-card .name {
+    font-size: 16px;
+    margin: 8px 0 4px;
+    font-weight: 500;
+  }
+
+  .banner-card .desc {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+  }
+
+  .banner-card .view-all {
+    display: inline-block;
+    font-weight: bold;
+    color: #004b3f;
+    text-decoration: underline;
+    font-size: 15px;
+  }
+}

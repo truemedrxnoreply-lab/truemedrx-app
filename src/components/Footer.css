@@ -1,0 +1,178 @@
+.footer-container {
+  width: 100%;
+  background: #f2f3f5;
+  padding: 50px 0 0 0;
+  font-family: Arial, sans-serif;
+  color: #002c5f;
+}
+
+/* --- PARTIE DU HAUT --- */
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.footer-left {
+  width: 55%;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.footer-right {
+  width: 35%;
+  text-align: left;
+}
+
+.footer-right h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #002c5f;
+}
+
+.social-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.social-icons i {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.blog-text {
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+/* --- PARTIE CERTIFIÉE --- */
+.footer-certified {
+  width: 100%;
+  background: white;
+  padding: 50px 20px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.footer-certified h2 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #00306a;
+}
+
+.certification-logos {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.certification-logos img {
+  height: 45px;
+  object-fit: contain;
+}
+
+/* --- Responsive --- */
+@media(max-width: 900px) {
+  .footer-top {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-left, .footer-right {
+    width: 100%;
+  }
+
+  .footer-right {
+    margin-top: 30px;
+  }
+}
+
+
+/* --- VERSION MOBILE OPTIMISÉE --- */
+@media (max-width: 900px) {
+
+  .footer-container {
+    padding-top: 30px;
+  }
+
+  .footer-top {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .footer-left {
+    width: 100%;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .footer-right {
+    width: 100%;
+    margin-top: 30px;
+  }
+
+  .footer-right h3 {
+    font-size: 18px;
+    line-height: 1.4;
+  }
+
+  .social-icons {
+    justify-content: center;
+    gap: 25px;
+    margin-top: 15px;
+  }
+
+  .social-icons i {
+    font-size: 26px;
+  }
+
+  .blog-text {
+    font-size: 13px;
+  }
+
+  /* Partie certifiée */
+  .footer-certified {
+    padding: 40px 10px;
+  }
+
+  .footer-certified h2 {
+    font-size: 22px;
+    margin-bottom: 25px;
+  }
+
+  .certification-logos {
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .certification-logos img {
+    height: 38px;
+  }
+}
+
+/* Très petits écrans (téléphones < 480px) */
+@media (max-width: 480px) {
+
+  .footer-left {
+    font-size: 13px;
+  }
+
+  .footer-certified h2 {
+    font-size: 20px;
+  }
+
+  .social-icons i {
+    font-size: 24px;
+  }
+
+  .certification-logos img {
+    height: 32px;
+  }
+}

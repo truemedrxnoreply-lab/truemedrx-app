@@ -1,0 +1,154 @@
+.popular-section {
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.popular-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+/* Colonne Vidéo */
+.video-column {
+  position: relative;
+}
+
+.video-wrapper {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  background: #000;
+}
+
+.hero-video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 20px;
+}
+
+/* Colonne Contenu */
+.content-column {
+  padding: 20px;
+}
+
+.badge {
+  display: inline-block;
+  background: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #2d3748;
+  margin-bottom: 24px;
+}
+
+.description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #4a5568;
+  margin-bottom: 32px;
+}
+
+.cta-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 40px;
+}
+
+.cta-button:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 123, 255, 0.3);
+}
+
+.tagline {
+  display: flex;
+  gap: 30px;
+}
+
+.tagline-item {
+  font-size: 1.2rem;
+  color: #2d3748;
+}
+
+/* Responsive Mobile */
+@media (max-width: 768px) {
+  .popular-section {
+    padding: 40px 15px;
+  }
+
+  .popular-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .video-column {
+    order: 2;
+  }
+
+  .content-column {
+    order: 1;
+    padding: 0;
+    text-align: center;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .tagline {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .cta-button {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .description {
+    font-size: 0.95rem;
+  }
+
+  .tagline {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tagline-item {
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,118 @@
+.panier-container {
+  padding: 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.panier-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.panier-table th,
+.panier-table td {
+  padding: 12px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.panier-image {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.quantity-input {
+  width: 60px;
+  padding: 5px;
+  text-align: center;
+}
+
+.remove-btn {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.remove-btn:hover {
+  background-color: darkred;
+}
+
+.panier-total {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.checkout-btn {
+  background-color: #1e90ff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.checkout-btn:hover {
+  background-color: #006edc;
+}
+
+/* 📱 VERSION MOBILE */
+@media (max-width: 768px) {
+  .panier-table,
+  .panier-table thead,
+  .panier-table tbody,
+  .panier-table th,
+  .panier-table td,
+  .panier-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .panier-table thead {
+    display: none;
+  }
+
+  .panier-table tr {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #f9f9f9;
+  }
+
+  .panier-table td {
+    text-align: left;
+    padding: 8px 10px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+  }
+
+  .panier-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 6px;
+    color: #333;
+  }
+
+  .quantity-input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .panier-total {
+    text-align: center;
+  }
+
+  .checkout-btn {
+    width: 100%;
+    margin-top: 15px;
+  }
+}
