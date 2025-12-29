@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
@@ -20,36 +22,36 @@ const UserSchema = new mongoose.Schema({
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date },
 });
-
 const User = mongoose.model('User', UserSchema);
 
-// --- Express App Setup ---
+// --- App Setup ---
 const app = express();
 const PORT = process.env.PORT || 3001;
-const JWT_SECRET = 'your_super_secret_jwt_key';
+const JWT_SECRET = process.env.JWT_SECRET;
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 
 // --- Middleware ---
 app.use(cors());
 app.use(express.json());
 app.use(passport.initialize());
 
-// --- Database Connection ---
-const MONGODB_URI = "mongodb+srv://topomba237_db_user:1PkiWWuwEJoIPva3@cluster1.u5z2cph.mongodb.net/?appName=Cluster1"; 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+// --- DB Connection ---
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected successfully.'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// --- Passport & Nodemailer Setup ---
+// --- Services Setup (Passport & Nodemailer) ---
 passport.use(new GoogleStrategy({
-    clientID: "1056162628794-h8g6gect45enldc1jhaufgahli972d75.apps.googleusercontent.com",
-    clientSecret: "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",
-    callbackURL: "http://localhost:3001/auth/google/callback"
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "/auth/google/callback"
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
       let user = await User.findOne({ googleId: profile.id });
       if (!user) {
         user = await User.create({ googleId: profile.id, name: profile.displayName, email: profile.emails[0].value, profilePicture: profile.photos[0].value });
+        await sendWelcomeEmail(user);
       }
       done(null, user);
     } catch (error) {
@@ -61,14 +63,14 @@ passport.use(new GoogleStrategy({
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'truemedrx.noreply@gmail.com',
-        pass: 'gzng ubjy iyls ezoa'
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     }
 });
 
 const sendWelcomeEmail = async (user) => {
     const mailOptions = {
-        from: 'truemedrx.noreply@gmail.com',
+        from: process.env.EMAIL_USER,
         to: user.email,
         subject: 'Welcome to TrueMedRx!',
         text: `Hello ${user.name},\n\nWelcome to TrueMedRx! We are excited to have you on board.\n\nThank you,\nThe TrueMedRx Team`
@@ -85,17 +87,19 @@ const sendWelcomeEmail = async (user) => {
 
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-app.get('/auth/google/callback', passport.authenticate('google', { session: false }), async (req, res) => {
+app.get('/auth/google/callback', passport.authenticate('google', { session: false }), (req, res) => {
   const payload = { id: req.user._id, name: req.user.name, email: req.user.email, profilePicture: req.user.profilePicture };
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
-  await sendWelcomeEmail(req.user); // Send welcome email
-  res.redirect(`http://localhost:3000/auth/callback?token=${token}`);
+  res.redirect(`${FRONTEND_URL}/auth/callback?token=${token}`);
 });
 
 app.get('/api/products', (req, res) => {
-  const productsPath = path.join(__dirname, '..', 'public', 'products.json');
+  const productsPath = path.resolve(__dirname, '..', 'public', 'products.json');
   fs.readFile(productsPath, 'utf8', (err, data) => {
-    if (err) { return res.status(500).json({ message: 'Error loading products.' }); }
+    if (err) { 
+        console.error("Error reading products.json:", err);
+        return res.status(500).json({ message: 'Error loading products.' }); 
+    }
     res.json(JSON.parse(data));
   });
 });
@@ -113,8 +117,8 @@ app.post('/api/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ name, email, password: hashedPassword, profilePicture: '' });
     await newUser.save();
-    await sendWelcomeEmail(newUser); // Send welcome email
-    res.status(201).json({ message: 'User registered successfully!', user: { id: newUser._id, name: newUser.name, email: newUser.email }});
+    await sendWelcomeEmail(newUser);
+    res.status(201).json({ message: 'User registered successfully!'});
   } catch (error) {
     res.status(500).json({ message: 'Server error during registration.' });
   }
@@ -151,15 +155,15 @@ app.post('/api/forgot-password', async (req, res) => {
         }
         const token = crypto.randomBytes(20).toString('hex');
         user.resetPasswordToken = token;
-        user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+        user.resetPasswordExpires = Date.now() + 3600000;
         await user.save();
 
-        const resetURL = `http://localhost:3000/reset-password/${token}`;
+        const resetURL = `${FRONTEND_URL}/reset-password/${token}`;
         const mailOptions = {
-            from: 'truemedrx.noreply@gmail.com',
+            from: process.env.EMAIL_USER,
             to: user.email,
             subject: 'Password Reset Request',
-            text: `You are receiving this because you (or someone else) have requested the reset of the password for your account...`
+            text: `Please click on the following link to reset your password: ${resetURL}`
         };
         await transporter.sendMail(mailOptions);
         res.json({ success: true });
