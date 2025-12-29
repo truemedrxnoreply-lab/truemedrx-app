@@ -5,6 +5,8 @@ import AuthContext from '../../context/AuthContext';
 import './Header.css';
 import SearchBar from "./SearchBar";
 
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
+
 const Header = () => {
   const navigate = useNavigate();
   const { cartItems } = useContext(CartContext);
@@ -12,11 +14,10 @@ const Header = () => {
   const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(""); // Restored searchTerm state
   const headerRef = useRef(null);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/products')
+    fetch(`${API_URL}/api/products`)
       .then(res => res.json())
       .then(data => {
         const uniqueCategories = [...new Set(data.map(p => p.category))];
@@ -57,7 +58,7 @@ const Header = () => {
         </div>
         
         <div className="header-search-desktop">
-          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          <SearchBar />
         </div>
         
         <div className="header-actions">
@@ -80,7 +81,7 @@ const Header = () => {
       </div>
       
       <div className="header-search-mobile">
-        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <SearchBar />
       </div>
 
       <nav className={`categories-navbar ${isMenuOpen ? 'open' : ''}`}>

@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import './AuthForm.css';
 
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
+
 const LoginPage = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
@@ -16,7 +18,7 @@ const LoginPage = () => {
     setLoading(true);
     setError('');
 
-    fetch('http://localhost:3001/api/login', {
+    fetch(`${API_URL}/api/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -39,7 +41,7 @@ const LoginPage = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = 'http://localhost:3001/auth/google';
+    window.location.href = `${API_URL}/auth/google`;
   };
 
   return (

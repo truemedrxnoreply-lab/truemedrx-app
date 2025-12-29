@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import './AuthForm.css';
 
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
+
 const ResetPasswordPage = () => {
-  const { token } = useParams(); // Gets the token from the URL
+  const { token } = useParams();
   const navigate = useNavigate();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -21,7 +23,7 @@ const ResetPasswordPage = () => {
     setError('');
     setMessage('');
 
-    fetch('http://localhost:3001/api/reset-password', {
+    fetch(`${API_URL}/api/reset-password`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token, password }),

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import LoadingSpinner from '../components/LoadingSpinner'; // Import the spinner
+import LoadingSpinner from '../components/LoadingSpinner';
 import '../components/ProductDisplay.css';
+
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
 
 const CategoryPage = () => {
   const { categoryId } = useParams();
@@ -11,7 +13,7 @@ const CategoryPage = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch('http://localhost:3001/api/products')
+    fetch(`${API_URL}/api/products`)
       .then(res => res.json())
       .then(data => {
         const decodedCategoryId = decodeURIComponent(categoryId);
@@ -25,7 +27,6 @@ const CategoryPage = () => {
       });
   }, [categoryId]);
 
-  // Show spinner while loading
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -42,7 +43,7 @@ const CategoryPage = () => {
                 className="product-card-display"
                 onClick={() => navigate(`/produit?id=${product.id}`)}
               >
-                <img src={product.image.startsWith('http') ? product.image : process.env.PUBLIC_URL + product.image} alt={product.name} className="product-image-display" />
+                <img src={product.image.startsWith('http') ? product.image : product.image} alt={product.name} className="product-image-display" />
                 <div className="product-info-display">
                   {product.brand.toUpperCase() !== decodeURIComponent(categoryId).toUpperCase() && 
                     <h4 className="product-brand-display">{product.brand}</h4>

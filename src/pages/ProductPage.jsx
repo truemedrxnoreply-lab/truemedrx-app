@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
-import LoadingSpinner from '../components/LoadingSpinner'; // Import the spinner
+import LoadingSpinner from '../components/LoadingSpinner';
 import "./ProductPage.css";
 import Footer from "../components/Footer";
+
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
 
 const ProductPage = () => {
   const location = useLocation();
@@ -17,7 +19,7 @@ const ProductPage = () => {
 
     if (productId) {
       setLoading(true);
-      fetch('http://localhost:3001/api/products')
+      fetch(`${API_URL}/api/products`)
         .then((response) => response.json())
         .then((data) => {
           const foundProduct = data.find(p => p.id === parseInt(productId));
@@ -42,28 +44,21 @@ const ProductPage = () => {
   return (
     <div>
       <div className="product-page">
-        <img src={product.image.startsWith('http') ? product.image : process.env.PUBLIC_URL + product.image} alt={product.name} className="product-image" />
+        <img src={product.image.startsWith('http') ? product.image : product.image} alt={product.name} className="product-image" />
         <div className="product-info">
           <h1 className="product-title">{product.name}</h1>
           <p className="product-brand">{product.brand}</p>
-
           <div className="product-rating">
             <span className="star">★★★★★</span>
             <span>4.5</span>
           </div>
-
           <p className="product-price">{product.price}$</p>
           <p className="product-stock">Only 15 units at this price</p>
-
-          <button
-            className="product-button"
-            onClick={() => addToCart(product)}
-          >
+          <button className="product-button" onClick={() => addToCart(product)}>
             Add to cart
           </button>
         </div>
       </div>
-
       <br /><br />
       <p className="product-price2">{product.description}</p>
       <br /><br /><br /> 

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './AuthForm.css';
 
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
+
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [name, setName] = useState('');
@@ -15,7 +17,7 @@ const RegisterPage = () => {
     setLoading(true);
     setError('');
 
-    fetch('http://localhost:3001/api/register', {
+    fetch(`${API_URL}/api/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password }),
@@ -37,7 +39,7 @@ const RegisterPage = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = 'http://localhost:3001/auth/google';
+    window.location.href = `${API_URL}/auth/google`;
   };
 
   return (
