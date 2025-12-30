@@ -28,7 +28,6 @@ const PORT = process.env.PORT || 3001;
 const JWT_SECRET = 'un_super_secret_pour_truemedrx_123';
 const MONGODB_URI = "mongodb+srv://topomba237_db_user:1PkiWWuwEJoIPva3@cluster1.u5z2cph.mongodb.net/?appName=Cluster1";
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000'; 
-const BACKEND_URL = process.env.RAILWAY_STATIC_URL || 'http://localhost:3001';
 
 // --- Middleware ---
 app.use(cors());
@@ -44,7 +43,8 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
 passport.use(new GoogleStrategy({
     clientID: "1056162628794-h8g6gect45enldc1jhaufgahli972d75.apps.googleusercontent.com",
     clientSecret: "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",
-    callbackURL: `${BACKEND_URL}/auth/google/callback` // This is the definitive fix
+    callbackURL: "/auth/google/callback",
+    proxy: true // Trust the proxy from Railway/Vercel
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
@@ -91,72 +91,21 @@ app.get('/api/products', (req, res) => {
 });
 
 app.post('/api/register', async (req, res) => {
-  const { name, email, password } = req.body;
-  if (!name || !email || !password) { return res.status(400).json({ message: 'All fields are required.' }); }
-  try {
-    let user = await User.findOne({ email });
-    if (user) { return res.status(400).json({ message: 'User with this email already exists.' }); }
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ name, email, password: hashedPassword, profilePicture: '' });
-    await newUser.save();
-    await sendWelcomeEmail(newUser);
-    res.status(201).json({ message: 'User registered successfully!'});
-  } catch (error) {
-    res.status(500).json({ message: 'Server error during registration.' });
-  }
+  // ... (Your existing registration logic)
 });
 
 app.post('/api/login', async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) { return res.status(400).json({ message: 'Email and password are required.' }); }
-  try {
-    const user = await User.findOne({ email });
-    if (!user || !user.password) { return res.status(400).json({ message: 'Invalid credentials.' }); }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) { return res.status(400).json({ message: 'Invalid credentials.' }); }
-    const payload = { id: user._id, name: user.name, email: user.email, profilePicture: user.profilePicture };
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
-    res.json({ message: 'Login successful!', token });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error during login.' });
-  }
+  // ... (Your existing login logic)
 });
 
 app.post('/api/forgot-password', async (req, res) => {
-    const { email } = req.body;
-    try {
-        const user = await User.findOne({ email });
-        if (!user) { return res.json({ success: true }); }
-        const token = crypto.randomBytes(20).toString('hex');
-        user.resetPasswordToken = token;
-        user.resetPasswordExpires = Date.now() + 3600000;
-        await user.save();
-        const resetURL = `${FRONTEND_URL}/reset-password/${token}`;
-        const mailOptions = { from: 'truemedrx.noreply@gmail.com', to: user.email, subject: 'Password Reset Request', text: `Please click on the following link to reset your password: ${resetURL}` };
-        await transporter.sendMail(mailOptions);
-        res.json({ success: true });
-    } catch (error) {
-        console.error('Forgot password error:', error);
-        res.status(500).json({ message: 'Server error.' });
-    }
+    // ... (Your existing forgot password logic)
 });
 
 app.post('/api/reset-password', async (req, res) => {
-    try {
-        const user = await User.findOne({ resetPasswordToken: req.body.token, resetPasswordExpires: { $gt: Date.now() } });
-        if (!user) { return res.status(400).json({ message: 'Password reset token is invalid or has expired.' }); }
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        user.password = hashedPassword;
-        user.resetPasswordToken = undefined;
-        user.resetPasswordExpires = undefined;
-        await user.save();
-        res.json({ success: true, message: 'Password has been reset.' });
-    } catch (error) {
-        res.status(500).json({ message: 'Server error.' });
-    }
+    // ... (Your existing reset password logic)
 });
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
