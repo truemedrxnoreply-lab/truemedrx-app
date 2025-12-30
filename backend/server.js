@@ -27,7 +27,8 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const JWT_SECRET = 'un_super_secret_pour_truemedrx_123';
 const MONGODB_URI = "mongodb+srv://topomba237_db_user:1PkiWWuwEJoIPva3@cluster1.u5z2cph.mongodb.net/?appName=Cluster1";
-const FRONTEND_URL = 'http://localhost:3000';
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000'; 
+const BACKEND_URL = process.env.RAILWAY_STATIC_URL || 'http://localhost:3001';
 
 // --- Middleware ---
 app.use(cors());
@@ -43,7 +44,7 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
 passport.use(new GoogleStrategy({
     clientID: "1056162628794-h8g6gect45enldc1jhaufgahli972d75.apps.googleusercontent.com",
     clientSecret: "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",
-    callbackURL: "http://localhost:3001/auth/google/callback"
+    callbackURL: `${BACKEND_URL}/auth/google/callback` // This is the definitive fix
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
